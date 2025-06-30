@@ -1,0 +1,1 @@
+worker: python triangle_bybit_async_bot.py
