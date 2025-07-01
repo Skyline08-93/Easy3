@@ -26,7 +26,12 @@ log_file = "triangle_log.csv"
 triangle_cache = {}
 triangle_hold_time = 5  # seconds
 
-exchange = ccxt.bybit({"enableRateLimit": True})
+exchange = ccxt.bybit({
+    "apiKey": os.getenv("BYBIT_API_KEY"),
+    "secret": os.getenv("BYBIT_API_SECRET"),
+    "enableRateLimit": True,
+    "options": {"defaultType": "spot"}
+})
 
 
 async def load_symbols():
@@ -213,4 +218,4 @@ async def main():
 
 
 if __name__ == '__main__':
-    asyncio.run(main()) 
+    asyncio.run(main())
