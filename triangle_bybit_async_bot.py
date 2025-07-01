@@ -34,6 +34,21 @@ async def load_symbols():
     return list(markets.keys()), markets
 
 
+async def find_triangles(symbols):
+    triangles = []
+    for base in start_coins:
+        for sym1 in symbols:
+            if not sym1.endswith('/' + base): continue
+            mid1 = sym1.split('/')[0]
+            for sym2 in symbols:
+                if not sym2.startswith(mid1 + '/'): continue
+                mid2 = sym2.split('/')[1]
+                third = f"{mid2}/{base}"
+                if third in symbols or f"{base}/{mid2}" in symbols:
+                    triangles.append((base, mid1, mid2))
+    return triangles
+
+
 async def get_avg_price(orderbook_side, target_usdt):
     total_base = 0
     total_usd = 0
@@ -198,4 +213,4 @@ async def main():
 
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    asyncio.run(main()) 
